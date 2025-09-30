@@ -172,3 +172,78 @@ test('assign', async () => {
 
   await orm.em.flush();
 });
+
+test('create passing with one less level of nesting (removing tags)', async () => {
+  // Create a user with the full graph in a single create call
+  orm.em.create(User, {
+    id: 1,
+    email: 'john@example.com',
+    posts: [
+      {
+        id: 1,
+        comments: [
+          {
+            id: 1,
+            tags: []
+          },
+          {
+            id: 2,
+            tags: []
+          }
+        ]
+      },
+      {
+        id: 2,
+        comments: [
+          {
+            id: 3,
+            tags: []
+          }
+        ]
+      }
+    ]
+  });
+  
+  await orm.em.flush();
+});
+
+test('assign passing with one less level of nesting (removing tags)', async () => {
+  const user = orm.em.create(User, {
+    id: 1,
+    email: 'john@example.com',
+    posts: []
+  });
+  
+  await orm.em.flush();
+
+  orm.em.assign(user, {
+    id: 1,
+    email: 'john@example.com',
+    posts: [
+      {
+        id: 1,
+        comments: [
+          {
+            id: 1,
+            tags: []
+          },
+          {
+            id: 2,
+            tags: []
+          }
+        ]
+      },
+      {
+        id: 2,
+        comments: [
+          {
+            id: 3,
+            tags: []
+          }
+        ]
+      }
+    ]
+  })
+
+  await orm.em.flush();
+});
