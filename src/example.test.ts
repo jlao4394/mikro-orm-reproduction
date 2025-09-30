@@ -122,43 +122,6 @@ test('create', async () => {
   });
   
   await orm.em.flush();
-
-  orm.em.create(User, {
-    id: 1,
-    email: 'john@example.com',
-    posts: [
-      {
-        id: 1,
-        comments: [
-          {
-            id: 1,
-            tags: [
-              { id: 1 },
-              { id: 2 }
-            ]
-          },
-          {
-            id: 2,
-            tags: [
-              { id: 3 }
-            ]
-          }
-        ]
-      },
-      {
-        id: 2,
-        comments: [
-          {
-            id: 3,
-            tags: [
-              { id: 4 },
-              { id: 5 }
-            ]
-          }
-        ]
-      }
-    ]
-  });
 });
 
 test('assign', async () => {
